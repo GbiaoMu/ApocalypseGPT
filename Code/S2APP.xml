@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ROOT>
+  <APP>
+    <INDU name="Antminer S19" coin="BTC/BCH" unit="GH" hashrate="90250" chainNum="3" minerChipNum="228" />
+    <ENVI name="Antminer D5" coin="DASH" unit="GH" hashrate="113" chainNum="3" minerChipNum="252" />
+    <BUSI>
+    	<B1 name="Antminer D5" coin="DASH" unit="GH" hashrate="113" chainNum="3" minerChipNum="252" />
+    	<B2 name="Antminer D5" coin="DASH" unit="GH" hashrate="113" chainNum="3" minerChipNum="252" />
+    </BUSI>
+    <COND>
+    	<C1 name="Antminer D5" coin="DASH" unit="GH" hashrate="113" chainNum="3" minerChipNum="252" />
+    	<C2 name="Antminer D5" coin="DASH" unit="GH" hashrate="113" chainNum="3" minerChipNum="252" />
+    </COND>
+  </APP>
+</ROOT>
