@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmls="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+    <title>AIGORDR DEMO</title>
+    <meta content="mshtml 8.00.7600.17267" name="generator">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no, target-densitydpi=device-dpi">
+	<meta name="apple-mobile-web-app-capable" content="yes" />    
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="format-detection" content="telephone=yes"/>
+	<meta name="msapplication-tap-highlight" content="no" />
+    <script type="text/javascript" src="./aig.js"></script>
+	<script type="text/javascript" src="./FileSaver.js"></script>
+	<script type="text/javascript" src="./xml2json.js"></script>
+	<script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+	<!-- script lang="javascript" src="./xlsx.full.min.js"></script>
+	script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>-->
+</head>
+
+<body onload="" onbeforeunload="" onunload="">
+	<iframe id="id_iframe" name="id_iframe" style="display:none;"></iframe>
+	<DIV id="hdbkground">
+		<P><IMG src="./imgdb/head.png" /></P>
+	</DIV>
+	<HR>
+	<DIV id="hdloginpge">
+ 		<DIV>
+ 			<SPAN></SPAN>
+ 			<input type="text" value="导入原始需求文件" style="width:200px;font-style:italic" />
+ 			<input type="file" id="input_rawtext" />
+ 		</DIV>
+ 		<HR>
+ 		<DIV>
+ 			<TABLE width="60%" border="1" cellspacing="1" cellpadding="5">
+				<TR><TD>
+					<label>需求框架字段选择</label>
+ 					<DIV><input type="checkbox" value="1" name="orfldsel">场景 Scense</DIV>
+    				<DIV><input type="checkbox" value="2" name="orfldsel">需求 Requirement</DIV>
+    				<DIV><input type="checkbox" value="3" name="orfldsel">差距 Gap</DIV>
+ 					<DIV><input type="checkbox" value="4" name="orfldsel">痛点 Problem</DIV>
+    				<DIV><input type="checkbox" value="5" name="orfldsel">价值 Value</DIV>
+    				<DIV><input type="checkbox" value="6" name="orfldsel">验收标准 Check-rule</DIV>
+    				<DIV><input type="checkbox" value="7" name="orfldsel">依赖关系 Dependent</DIV>
+ 					<HR>
+ 					<input style="float:right" type="button" onclick="orfldcfg()" id="worker" value="编辑需求框架字段表" />
+ 				</TD>
+ 				<TD>
+					<label>需求校正规则选择</label>
+ 					<DIV><input type="checkbox" value="1" name="orchksel">遗漏 Missing</DIV>
+    				<DIV><input type="checkbox" value="2" name="orchksel">冲突 Conflict</DIV>
+    				<DIV><input type="checkbox" value="3" name="orchksel">错误 Error</DIV>
+    				<DIV></BR></DIV>
+    				<DIV></BR></DIV>
+    				<DIV></BR></DIV>
+    				<DIV></BR></DIV>
+ 					<HR>
+ 					<input style="float:right" type="button" onclick="orchkcfg()" value="编辑校正规则表"/>
+ 				</TD></TR>
+ 			</TABLE>
+ 			<script type="text/javascript"> 
+				/*function openDownloadDialog(url, saveName)
+				{
+				if(typeof url == 'object' && url instanceof Blob)
+				{
+					url = URL.createObjectURL(url); 
+				}
+				var aLink = document.createElement('a');
+				aLink.href = url;
+				aLink.download = saveName || '';
+				var event;
+				if(window.MouseEvent) event = new MouseEvent('click');
+				else {
+					event = document.createEvent('MouseEvents');
+					event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+				}
+				aLink.dispatchEvent(event);
+			}
+				worker.addEventListener('message', function(e) {
+				  if(e && e.data && e.data.t == "export") {
+				    e.stopPropagation();
+				    e.preventDefault();
+				    // data will be the Uint8Array from the worker
+				    const data = e.data.v;
+				
+				    var blob = new Blob([data], {type:"application/octet-stream"});
+				    var url = URL.createObjectURL(blob);
+				    var a = document.createElement("a");
+				    a.download = "SheetJSXPort.xlsx";
+				    a.href = url;
+				    document.body.appendChild(a);
+				    a.click();
+				  }
+				});*/			      
+    		</script>
+ 		<HR>
+ 		<DIV>
+ 			<TABLE width="60%" border="1" cellspacing="1" cellpadding="5">
+				<TR><TD>
+					<label>人工调整选择</label>
+ 					<DIV><input type="checkbox" value="1" name="aigselect">人工标注OR文件</DIV>
+    				<DIV><input type="checkbox" value="2" name="aigselect">人工调整OR字段</DIV>
+    				<DIV><input type="checkbox" value="3" name="aigselect">人工校正OR文件</DIV>
+ 					<DIV>
+ 						<HR>
+ 						<input type="text" value="导入下载编辑后的需求框架文件" style="width:200px;font-style:italic" />
+ 						<input type="file" id="input_frametxt" />
+ 						<DIV><input style="float:right" type="button" value="AI生成OR" onclick="aigor()" /></DIV>
+ 					</DIV>
+ 				</TD></TR>
+ 			</TABLE>
+ 		</DIV>
+ 		<script type="text/javascript"> 
+ 			function hdlrawfile(e) {
+			  	var file = e.target.files[0];
+			  	var reader = new FileReader();
+			  	reader.onload = function(e) {
+			    	var data = e.target.result;
+			    	var fname = file.name;
+			    	var workbook = XLSX.read(e.target.result);				    	
+			    	var sheetNames = workbook.SheetNames;
+			    	var worksheet = workbook.Sheets[sheetNames[0]];
+			    	var tjson = XLSX.utils.sheet_to_json(worksheet);
+			  	};
+			  	reader.readAsArrayBuffer(file); 
+			}
+			function hdlfrmfile(e) {
+			  	var file = e.target.files[0];
+			  	var reader = new FileReader();
+			  	reader.onload = function(e) {
+			    	var data = e.target.result;
+			    	var fname = file.name;
+			    	var workbook = XLSX.read(e.target.result);				    	
+			    	var sheetNames = workbook.SheetNames;
+			    	var worksheet = workbook.Sheets[sheetNames[0]];
+			    	var tjson = XLSX.utils.sheet_to_json(worksheet);
+			  	};
+			  	reader.readAsArrayBuffer(file); 
+			}
+			input_rawtext.addEventListener("change", hdlrawfile, false); 
+			input_frametxt.addEventListener("change", hdlfrmfile, false); 
+		</script>
+ 		<HR>
+ 		<DIV>
+ 			<SPAN></SPAN>
+ 			<input type="text" width="400" />
+ 			<button id="openFileBtn" class="btn" onclick="selectAndOpenFile()">上传SVN</button>
+    		<input type="file" name="pic" id="f" style="display: none;" onchange="selectFile(this.files)"/>
+    		<script type="text/javascript"> 
+				function selectAndOpenFile()
+        		{
+        		    var f = document.getElementById('f');
+        		    f.click();
+        		}
+        		function selectFile(files)
+        		{
+        		    if (!files.length)  {
+        		        return;
+        		    }
+        		    var file = files[0];
+        		    console.log(files);
+        		    curFile = file;
+        		    console.log(curFile);
+        		}        
+    		</script> 
+ 		</DIV>
+	</DIV>
+</body>
+</html>

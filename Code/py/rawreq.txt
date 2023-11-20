@@ -1,0 +1,8 @@
+﻿支持free runnning clk
+32通道并行产生free runnning clk
+free runnning clk支持频率12KHz～200MHz
+free runnning clk支持7种分频比
+支持Trigger同步
+支持单端双向trigger信号接口
+支持差分输入信号接口
+从8个单端trigger信号选择任意1个输出
